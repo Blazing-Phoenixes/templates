@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px; }
+        .chat-container { max-width: 600px; margin: auto; background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .message { margin: 10px 0; padding: 10px; border-radius: 10px; }
+        .sent { background: #dcf8c6; text-align: right; }
+        .received { background: #f1f0f0; text-align: left; }
+        .message time { font-size: 0.8em; color: #555; display: block; margin-top: 5px; }
+        .chat-form { display: flex; gap: 10px; margin-top: 20px; }
+        input[type="text"] { flex: 1; padding: 10px; border-radius: 5px; border: 1px solid #ccc; }
+        button { padding: 10px 20px; border: none; border-radius: 5px; background: #4CAF50; color: white; cursor: pointer; }
+        button:hover { background: #45a049; }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <h2>Chat with {{ friend[1] }}</h2>
+
+        {% for sender_id, message, timestamp in messages %}
+            <div class="message {% if sender_id == session['user_id'] %}sent{% else %}received{% endif %}">
+                {{ message }}
+                <time>{{ timestamp }}</time>
+            </div>
+        {% endfor %}
+
+        <form class="chat-form" method="POST">
+            <input type="text" name="message" placeholder="Type your message..." required>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+</body>
+</html>

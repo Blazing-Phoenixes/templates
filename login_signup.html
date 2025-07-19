@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login / Signup - Social Media App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f1f2f6;
+        }
+        .form-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            margin-top: 5vh;
+        }
+        .form-switch {
+            cursor: pointer;
+            text-align: center;
+        }
+        .form-switch:hover {
+            text-decoration: underline;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container col-md-6 offset-md-3">
+    <div class="form-container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-warning">
+                    {% for message in messages %}
+                        <div>{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Login Form -->
+        <form method="POST" action="{{ url_for('login') }}" id="login-form">
+            <h3 class="text-center">Login</h3>
+            <div class="mb-3">
+                <label>Username</label>
+                <input class="form-control" type="text" name="username" required />
+            </div>
+            <div class="mb-3">
+                <label>Password</label>
+                <input class="form-control" type="password" name="password" required />
+            </div>
+            <div class="mb-3 text-center">
+                <button class="btn btn-primary w-100">Login</button>
+            </div>
+        </form>
+
+        <!-- Signup Form -->
+        <form method="POST" action="{{ url_for('signup') }}" enctype="multipart/form-data" id="signup-form" class="hidden">
+            <h3 class="text-center">Sign Up</h3>
+            <div class="mb-3">
+                <label>Username</label>
+                <input class="form-control" type="text" name="username" required />
+            </div>
+            <div class="mb-3">
+                <label>Email</label>
+                <input class="form-control" type="email" name="email" required />
+            </div>
+            <div class="mb-3">
+                <label>Phone</label>
+                <input class="form-control" type="text" name="phone" required />
+            </div>
+            <div class="mb-3">
+                <label>Password</label>
+                <input class="form-control" type="password" name="password" required />
+            </div>
+            <div class="mb-3">
+                <label>Profile Picture</label>
+                <input class="form-control" type="file" name="profile_pic" />
+            </div>
+            <div class="mb-3 text-center">
+                <button class="btn btn-success w-100">Sign Up</button>
+            </div>
+        </form>
+
+        <!-- Switch Buttons -->
+        <div class="text-center mt-2">
+            <div class="form-switch text-primary" onclick="toggleForm('signup')">Don't have an account? Sign up</div>
+            <div class="form-switch text-primary hidden" onclick="toggleForm('login')">Already have an account? Login</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleForm(form) {
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        const switches = document.querySelectorAll('.form-switch');
+
+        if (form === 'signup') {
+            loginForm.classList.add('hidden');
+            signupForm.classList.remove('hidden');
+            switches[0].classList.add('hidden');
+            switches[1].classList.remove('hidden');
+        } else {
+            signupForm.classList.add('hidden');
+            loginForm.classList.remove('hidden');
+            switches[1].classList.add('hidden');
+            switches[0].classList.remove('hidden');
+        }
+    }
+</script>
+</body>
+</html>
